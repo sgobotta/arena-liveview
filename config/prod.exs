@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :arena_liveview, ArenaLiveviewWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "pacific-scrubland-81272", port: 443],
+  url: [scheme: "https", host: "HOST", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 

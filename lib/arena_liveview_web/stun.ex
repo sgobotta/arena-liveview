@@ -12,7 +12,7 @@ defmodule ArenaLiveviewWeb.Stun do
   Starts the Erlang STUN server at port 3478.
   """
   def init(_) do
-    :stun_listener.add_listener("127.0.0.1", 3478, :udp, [])
+    :stun_listener.add_listener({0,0,0,0}, 3478, :udp, [])
 
     {:ok, []}
   end
