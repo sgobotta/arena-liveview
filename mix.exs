@@ -47,7 +47,8 @@ defmodule ArenaLiveview.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:uuid, "~> 1.1"},
-      {:egd, github: "erlang/egd"}
+      {:egd, github: "erlang/egd"},
+      {:stun, "~> 1.0"}
     ]
   end
 

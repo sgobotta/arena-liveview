@@ -11,11 +11,11 @@ defmodule ArenaLiveviewWeb.Endpoint do
   ]
 
   socket "/socket", ArenaLiveviewWeb.UserSocket,
-    websocket: [timeout: 50_000],
+    websocket: [timeout: 45_000],
     longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket,
-    websocket: [timeout: 50_000, connect_info: [session: @session_options]]
+    websocket: [timeout: 45_000, connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #

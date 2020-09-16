@@ -15,7 +15,8 @@ defmodule ArenaLiveview.Application do
       {Phoenix.PubSub, name: ArenaLiveview.PubSub},
       # Start the Endpoint (http/https)
       ArenaLiveviewWeb.Endpoint,
-      ArenaLiveviewWeb.Presence
+      ArenaLiveviewWeb.Presence,
+      ArenaLiveviewWeb.Stun
       # Start a worker by calling: ArenaLiveview.Worker.start_link(arg)
       # {ArenaLiveview.Worker, arg}
     ]

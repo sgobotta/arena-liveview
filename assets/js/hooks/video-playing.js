@@ -10,7 +10,7 @@ export const VideoPlayingHook = (playerContainer) => ({
       setInterval(() => {
         const currentTime = player.target.getCurrentTime()
         this.pushEvent('video-time-sync', currentTime)
-      }, 3000)
+      }, 100000)
     })
   },
   updated() {
