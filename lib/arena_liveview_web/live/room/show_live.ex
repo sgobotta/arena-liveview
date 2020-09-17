@@ -48,25 +48,25 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
 
     <div id="offer-requests">
       <%= for request <- @offer_requests do %>
-      <span phx-hook="HandleOfferRequest" data-from-user-uuid="<%= request.from_user.uuid %>"></span>
+      <span id="handle-offer-request" phx-hook="HandleOfferRequest" data-from-user-uuid="<%= request.from_user.uuid %>"></span>
       <% end %>
     </div>
 
     <div id="sdp-offers">
       <%= for sdp_offer <- @sdp_offers do %>
-      <span phx-hook="HandleSdpOffer" data-from-user-uuid="<%= sdp_offer["from_user"] %>" data-sdp="<%= sdp_offer["description"]["sdp"] %>"></span>
+      <span id="handle-sdp-offer" phx-hook="HandleSdpOffer" data-from-user-uuid="<%= sdp_offer["from_user"] %>" data-sdp="<%= sdp_offer["description"]["sdp"] %>"></span>
       <% end %>
     </div>
 
     <div id="sdp-answers">
       <%= for answer <- @answers do %>
-      <span phx-hook="HandleAnswer" data-from-user-uuid="<%= answer["from_user"] %>" data-sdp="<%= answer["description"]["sdp"] %>"></span>
+      <span id="handle-answer" phx-hook="HandleAnswer" data-from-user-uuid="<%= answer["from_user"] %>" data-sdp="<%= answer["description"]["sdp"] %>"></span>
       <% end %>
     </div>
 
     <div id="ice-candidates">
       <%= for ice_candidate_offer <- @ice_candidate_offers do %>
-      <span phx-hook="HandleIceCandidateOffer" data-from-user-uuid="<%= ice_candidate_offer["from_user"] %>" data-ice-candidate="<%= Jason.encode!(ice_candidate_offer["candidate"]) %>"></span>
+      <span id="handle-ice-candidate-offer" phx-hook="HandleIceCandidateOffer" data-from-user-uuid="<%= ice_candidate_offer["from_user"] %>" data-ice-candidate="<%= Jason.encode!(ice_candidate_offer["candidate"]) %>"></span>
       <% end %>
     </div>
     """
@@ -195,6 +195,7 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
     {:noreply,
      socket
      |> assign(:connected_users, presence)
+     |> assign(:connected_peers, presence)
      |> push_event("presence-changed", %{
        presence_diff: payload,
        presence: presence,
@@ -278,7 +279,7 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
   end
 
   defp send_direct_message(slug, to_user, event, payload) do
-    ArenaLiveview.Endpoint.broadcast_from(
+    ArenaLiveviewWeb.Endpoint.broadcast_from(
       self(),
       "room:" <> slug <> ":" <> to_user,
       event,
