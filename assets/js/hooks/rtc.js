@@ -137,7 +137,6 @@ export default {
     mounted () {
       let data = this.el.dataset
       let fromUser = data.fromUserUuid
-      let { stunServerAddress } = data
       let sdp = data.sdp
 
       if (sdp != "") {
