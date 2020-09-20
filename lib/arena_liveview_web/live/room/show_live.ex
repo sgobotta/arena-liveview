@@ -28,6 +28,13 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
           <div class="loader">Loading...</div>
         <% end %>
       </ul>
+      <button id="join-call"
+        phx-hook="JoinCall"
+        phx-click="join_call"
+        <%= if @hide_info do "class=hide" end %>
+      >
+        Join with webcam
+      </button>
       <%= content_tag :div, id: 'video-player', 'phx-hook': "VideoPlaying", data: [video_id: @room.video_id, video_time: @room.video_time] do %>
       <% end %>
       <div >
@@ -38,23 +45,36 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
       </div>
     </div>
     <div class="streams">
-      <video id="local-video" playsinline autoplay muted width="600"></video>
+      <video id="local-video" playsinline autoplay muted width="150"></video>
       <%= for uuid <- @connected_peers do %>
-        <video id="video-remote-<%= uuid %>" data-user-uuid="<%= uuid %>" playsinline autoplay phx-hook="InitUser"></video>
+        <video id="video-remote-<%= uuid %>"
+          data-user-uuid="<%= uuid %>"
+          playsinline
+          autoplay
+          phx-hook="InitUser"
+          width="150"
+        ></video>
       <% end %>
     </div>
 
-    <button id="join-call" class="button" phx-hook="JoinCall" phx-click="join_call">Join Call</button>
-
     <div id="offer-requests">
       <%= for request <- @offer_requests do %>
-      <span id="handle-offer-request" phx-hook="HandleOfferRequest" data-from-user-uuid="<%= request.from_user.uuid %>"></span>
+      <span id="handle-offer-request"
+        phx-hook="HandleOfferRequest"
+        data-from-user-uuid="<%= request.from_user.uuid %>"
+        data-stun-server-address="<%= @stun_address %>"
+      />
       <% end %>
     </div>
 
     <div id="sdp-offers">
       <%= for sdp_offer <- @sdp_offers do %>
-      <span id="handle-sdp-offer" phx-hook="HandleSdpOffer" data-from-user-uuid="<%= sdp_offer["from_user"] %>" data-sdp="<%= sdp_offer["description"]["sdp"] %>"></span>
+      <span id="handle-sdp-offer"
+        phx-hook="HandleSdpOffer"
+        data-from-user-uuid="<%= sdp_offer["from_user"] %>"
+        data-sdp="<%= sdp_offer["description"]["sdp"] %>"
+        data-stun-server-address="<%= @stun_address %>"
+      />
       <% end %>
     </div>
 
@@ -103,6 +123,7 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
           |> assign(:ice_candidate_offers, [])
           |> assign(:sdp_offers, [])
           |> assign(:answers, [])
+          |> assign(:stun_address, "stun:" <> System.get_env("APP_HOST") <> System.get_env("STUN_PORT"))
         }
       end
     end
