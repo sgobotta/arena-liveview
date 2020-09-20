@@ -45,7 +45,14 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
       </div>
     </div>
     <div class="streams">
-      <video id="local-video" playsinline autoplay muted width="150"></video>
+      <video id="local-video"
+        playsinline
+        autoplay
+        muted
+        width="200"
+        height="150"
+        class="video-cam-container"
+      ></video>
       <%= for uuid <- @connected_peers do %>
         <video id="video-remote-<%= uuid %>"
           data-user-uuid="<%= uuid %>"
@@ -53,6 +60,8 @@ defmodule ArenaLiveviewWeb.Room.ShowLive do
           autoplay
           phx-hook="InitUser"
           width="150"
+          height="150"
+          class="video-cam-container"
         ></video>
       <% end %>
     </div>
